@@ -1,32 +1,56 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <p>holi</p>
+      <v-flex v-for="(product, i) in products" :key="i" xs4>
+        <product :product="product" />
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-export default {
-  name: 'Home'
+import axios from 'axios'
+import Product from '@/components/Product'
 
+const clientId = process.env.CLIENT_ID
+const apiUrl = process.env.API_URL
+const apiProduct = process.env.API_PRODUCT
+
+export default {
+  name: 'Home',
+  data () {
+    return {
+      products: [],
+      loading: false
+    }
+  },
+  mounted () {
+    this.getProducts()
+  },
+  methods: {
+    getProducts () {
+      this.loading = true
+      axios.get(`${apiUrl}${apiProduct}?client_id=${clientId}`)
+        .then(data => {
+          this.loading = false
+          const response = (data && data.data) ? data.data : null
+          console.log(response)
+          if (response && response.status && response.status === 'OK' && response.results) {
+            console.log(response.message)
+            console.log(`${response.page} / ${response.pages}`)
+            this.products = response.results
+          } else {
+            console.error(response.message)
+          }
+        })
+        .catch(err => {
+          this.loading = false
+          console.error(err)
+        })
+    }
+  },
+  components: {
+    Product
+  }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
