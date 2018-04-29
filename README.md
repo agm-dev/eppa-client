@@ -1,6 +1,6 @@
 # eppa-client
 
-> web client to consume eppa-api
+> A Vue web client for eppa
 
 ## Build Setup
 

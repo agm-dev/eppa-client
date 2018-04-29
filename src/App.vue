@@ -1,32 +1,27 @@
 <template>
-  <div id="app">
-    <v-app>
-      <toolbar />
-      <v-content>
-        <v-container fluid>
-          <router-view/>
-        </v-container>
-      </v-content>
-    </v-app>
+  <div id="app" class="app">
+    <div id="navbar" class="navbar">
+      <router-link to="/">Home</router-link>
+      <router-link to="/wishlist">Wishlist</router-link>
+    </div>
+    <router-view/>
+    <div id="footer" class="footer">
+      Eppa webclient 2018 - Powered by Vue.js
+    </div>
   </div>
 </template>
 
 <script>
-import Toolbar from './components/Toolbar'
 export default {
-  name: 'App',
-  components: {
-    Toolbar
-  }
+  name: 'App'
 }
 </script>
 
 <style>
-#app {
-  font-family: monospace;
+.app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
