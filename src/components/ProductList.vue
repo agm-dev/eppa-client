@@ -3,7 +3,15 @@
     <ul class="product-list__list">
       <li class="product-list__item" v-for="(product, index) in products" :key="index">
         <router-link v-bind:to="{ name: 'Product', params: { id: product.id, name: product.name } }">
-          <span>{{product.name}}</span>
+          <div class="product">
+            <div class="product__image">
+              <img v-bind:src="product.image" alt="product-image">
+            </div>
+            <div class="product__details">
+              <p>{{ product.name }}</p>
+              <p>{{ product.prices[0].price }}</p>
+            </div>
+          </div>
         </router-link>
       </li>
     </ul>
@@ -13,14 +21,7 @@
 <script>
 export default {
   name: 'ProductList',
-  data () {
-    return {
-      products: [
-        { id: 1, name: 'test1' },
-        { id: 2, name: 'test2' }
-      ]
-    }
-  }
+  props: ['products']
 }
 </script>
 

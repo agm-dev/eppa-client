@@ -19,7 +19,7 @@ export default new Router({
       component: Wishlist
     },
     {
-      path: '/product/:name',
+      path: '/product/:slug',
       name: 'Product',
       component: Product
     }
