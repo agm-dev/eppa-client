@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="page">
     <div class="search-box">
       <input type="text" v-model="searchText" @keypress.enter="searchByText">
       <button type="submit" @click="searchByText">Search</button>
@@ -7,8 +7,8 @@
     <div class="product-list product-list__container">
       <ul class="product-list__list">
         <li class="product-list__item" v-for="(product, index) in products" :key="index">
-          <router-link v-bind:to="{ name: 'Product', params: { id: product.id, slug: product.slug } }">
-            <div class="product">
+          <div class="product">
+            <router-link v-bind:to="{ name: 'Product', params: { id: product.id, slug: product.slug } }">
               <div class="product__image">
                 <img v-bind:src="product.image" alt="product-image">
               </div>
@@ -16,8 +16,11 @@
                 <p>{{ product.name }}</p>
                 <p>{{ product.prices[0].price }} (min: {{ product.min_price }}, max: {{ product.max_price }})</p>
               </div>
+            </router-link>
+            <div class="product__actions">
+                <button @click="addToWishlist(product)">Add Wishlist</button>
             </div>
-          </router-link>
+          </div>
         </li>
       </ul>
     </div>
@@ -42,6 +45,9 @@ export default {
   mounted () {
     if (!this.$store.state.products.length) {
       this.getProducts()
+    }
+    if (!this.$store.state.wishlist.length) {
+      this.loadWishlist()
     }
   },
   methods: {
@@ -69,6 +75,13 @@ export default {
         localStorage.setItem('products', JSON.stringify(apiProducts))
         console.log(`${apiProducts.length} saved on local storage`)
       }
+    },
+    loadWishlist () {
+      this.$store.commit('setWishlist')
+    },
+    addToWishlist (product) {
+      console.log(`adding product ${product.slug} to wishlist`)
+      this.$store.commit('addToWishlist', product)
     }
   }
 }
